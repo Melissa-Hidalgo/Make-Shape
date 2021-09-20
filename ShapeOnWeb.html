@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+    <!-- Link to External JavaScript -->
+    <!-- <script language="javascript" type="module" src="./DrawShape.js"></script>
+    <script language="javascript" type="module" src="./Calculadora.js"></script> -->
+    <script type="module">
+
+      import {MyController} from "./Calculadora.js"
+      import {ShapeController} from "./DrawShape.js"
+
+      import * as utils from "./utils.js"
+      console.log(utils.helloWorld("Mickey"));
+
+    </script>
+
+  </head>
+
+    <body>
+
+        <h2> Calculadora Target </h2>
+
+        <label for="operation">Select an operation:</label>
+
+        <select name="operation" id="operation">
+            <option value="+">Add</option>
+            <option value="-">Subtract </option>
+            <option value="*">Multiple </option>
+            <option value="/">Divide</option>
+        </select>
+
+        <br><br>
+
+        <label for="Num1">Numero 1:</label><br>
+        <input type="text" id="Num1" name="Num1"><br><br>
+        <label for="Num2">Numero 2:</label><br>
+        <input type="text" id="Num2" name="Num2"><br><br>
+
+        <button onclick="CallCalculator()">Execute</button>
+
+        <br><br>
+
+        <label for="c1">Caracter de los lados:</label>
+        <input type="text" id="c1" name="c1" size="2"><br><br>
+        <label for="c2">Caracter del centro:</label>
+        <input type="text" id="c2" name="c2" size="2"><br><br>
+
+        <button onclick="CallShapeController()">Draw Shape</button>
+
+        <button onclick="callHello()">call it</button>
+
+        <p id="resultado"></p>
+        <p id="Shape"></p>
+
+        <script>
+            function CallCalculator(){
+              
+              var desiredOperation = document.getElementById("operation").value;
+              var n1 = document.getElementById("Num1").value;
+              var n2 = document.getElementById("Num2").value;
+
+              var contenido = "";
+              // contenido = MyController.MyController(1, 2);
+              // console.log("value: " + contenido)
+
+              import("./Calculadora.js").then(calc => {
+
+                contenido = calc.MyController(desiredOperation, n1, n2);
+                document.getElementById("resultado").innerHTML = contenido;
+                // console.log("value: " + contenido);
+              });
+              
+              //var contenido = mainCallMyController();
+              
+
+            }
+            function CallShapeController(){
+
+              var c1 = document.getElementById("c1").value;
+              var c2 = document.getElementById("c2").value;
+              
+              var contenido = "";
+              import("./DrawShape.js").then(shapeMaker => {
+
+                contenido = shapeMaker.ShapeController(c1, c2, "web");
+                document.getElementById("Shape").innerHTML = contenido
+                console.log("value: " + contenido);
+                callHello();
+              });
+
+            }
+            function callHello(){
+              //utils.helloWorld("Mickey")
+            }
+        </script>
+        
+    </body>
+
+</html>

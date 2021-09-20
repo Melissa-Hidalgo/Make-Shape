@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+    <title>JavaScript Tutorial</title>
+
+	<style>
+		.label {
+		  color: white;
+		  padding: 8px;
+		  font-family: Arial;
+		}
+		.success {background-color: #04AA6D;} /* Green */
+		.info {background-color: #2196F3;} /* Blue */
+		.warning {background-color: #ff9800;} /* Orange */
+		.danger {background-color: #f44336;} /* Red */ 
+		.other {background-color: #e7e7e7; color: black;} /* Gray */ 
+	</style>
+
+	<!-- Link to External JavaScript -->
+	<script language="javascript" src="printFunctions.js"></script>
+
+  </head>
+  
+  	<body onload="DrawShape();">
+
+		<script language="javascript" type="text/javascript">	
+			document.write("<b>Calculadora Target Innovations.</b>");
+			document.write("<br>");
+			document.write("<br>");
+		</script>
+
+		<label class="label info" id="lblGreetings">Buenos Dias a Todos</label><br>
+
+		<p>Please select your desired operation</p>
+		<input type="radio" id="AddOperation" name="desired_operation" value="+">
+		<label for="Add">Add</label>
+		<input type="radio" id="SubtractOperation" name="desired_operation" value="-">
+		<label for="Subtract">Subtract</label>
+		<input type="radio" id="MultiplyOperation" name="desired_operation" value="*">
+		<label for="Multiply">Multiply</label>
+		<input type="radio" id="DivideOperation" name="desired_operation" value="/">
+		<label for="Divide">Divide</label><br/><br/>
+
+		<label class="label success" for="Num1">Numero 1:</label><br>
+		<input type="text" id="Num1" name="Num1" value=3><br><br>
+		<label class="label warning"  for="Num2" >Numero 2:</label><br>
+		<input type="text" id="Num2" name="Num2" value=2><br><br>
+		<label class="label warning"  for="Num3">Numero 3:</label><br>
+		<input type="text" id="Num3" name="Num3" value=1><br><br>
+        
+		<button onclick="ProcessRequest()">Try it</button>
+        
+		<br>
+		<p id="resultado"></p>
+
+		<script language="javascript" type="text/javascript">
+
+			function showAlert() {
+				var MiMensaje = "This can be whatever text you like!";
+				alert (MiMensaje);
+			}
+			function myFunction1() {
+
+				greeting();
+
+				var n1 = document.getElementById("Num1").value;
+				var n2 = document.getElementById("Num2").value;
+				var resultado = parseFloat(n1) + parseFloat(n2);
+
+				alert(resultado);
+				document.getElementById("resulado").innerHTML = "El resultado final es " + resultado;
+			}
+			function ProcessRequest() {
+
+				var n1 = document.getElementById("Num1").value;
+				var n2 = document.getElementById("Num2").value;
+				var n3 = document.getElementById("Num3").value;
+
+				//var desiredOperation = CheckForOperationSelected();
+				//document.write("<br>check Point #2: " + desiredOperation + "<br>");
+
+				var result = Add3Nums(n1, n2, n3);
+				
+				document.getElementById("resultado").innerHTML = result;
+
+				// PrintMeXTimes(result);
+                var msg = "";
+				msg += PrintMeXTimesForward(result);
+				msg += PrintMeXTimesBackward(result);
+
+				document.getElementById("resultado").innerHTML = msg +"<br>";
+
+				DrawShape();
+
+			}
+
+			function greeting(){
+
+				var myDate = new Date();
+				var hrs = myDate.getHours();
+
+				var greet;
+
+				if (hrs < 12)
+					greet = 'Good Morning';
+				else if (hrs >= 12 && hrs <= 17)
+					greet = 'Good Afternoon';
+				else if (hrs >= 17 && hrs <= 24)
+					greet = 'Good Evening';
+
+				document.getElementById('lblGreetings').innerHTML =
+					'<b>' + greet + '</b> and welcome Target Innovations!'	
+			}
+
+			function Add2Nums(a=0, b=0){
+				return parseFloat(n1) + parseFloat(n2);
+			}
+			function Subtract2Nums(a=0, b=0){
+				return parseFloat(n1) - parseFloat(n2);
+			}
+			function Multiply2Nums(a=0, b=0){
+				return parseFloat(n1) * parseFloat(n2);
+			}
+			function Divide2Nums(a=0, b=0){
+				return parseFloat(n1) / parseFloat(n2);
+			}
+			// Default and optional value, return and call other function
+			function Add3Nums(a=0, b=0, c){
+            
+
+				if (c === undefined) {
+					return Add2Nums(a, b);
+				}				
+                return Number(a) + Number(b) + Number(c);
+			}
+			function CheckForOperationSelected(){
+
+				const radios = document.querySelectorAll('input[name="desired_operation"]');
+				var value;
+				
+				document.write("<br>check Point #1: " + radios.length + "<br>");
+
+				for (var i = 0; i < radios.length; i++) {
+
+					// document.write(radios[i].value + "<br>");
+					// value = radios[i].value; 
+
+					if (radios[i].checked) {
+						
+						// get value, set checked flag or do whatever you need to
+						alert('got it')
+						return radios[i].value;       
+					}
+				}
+				alert(value);
+				return value;
+			}
+		</script>
+
+		<noscript>
+			<h3>JavaScript is Required</h3>
+		</noscript>
+
+  	</body>
+
+</html>
+
