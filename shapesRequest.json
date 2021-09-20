@@ -1,0 +1,20 @@
+{
+    "shapes" : [
+            {
+        "lado": "#",
+        "centro": "0"
+            },
+            {
+        "lado": "X",
+        "centro": "-"
+            },
+            {
+        "lado": ".",
+        "centro": "+"
+            },
+            {
+        "lado": "-",
+        "centro": "-x"
+            }
+        ]
+}

@@ -2,7 +2,7 @@ import { PonerLetras } from "./utils.js";
 
 function ShapeController(c1, c2, outputType){
 
-    console.log("Shape function 1: " + outputType);
+    // console.log("Output Type Requested: " + outputType);
 
     var rows = 30;
     var Shape = "";

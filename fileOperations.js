@@ -6,9 +6,9 @@ export async function readFromFile(filePath) {
   try {
     const data = await fs.readFile(filePath, "utf8", function (err, data) {
         if (err) throw err;
-      console.log(data);
+        // console.log(data);
     });
-    console.log(data);
+    // console.log('data ->' + data);
     return data;
   } catch (err) {
     console.error(`Got an error trying to read the file: ${err.message}`);
@@ -36,6 +36,17 @@ export async function deleteFile(filePath) {
   } catch (error) {
     console.error(`Got an error trying to delete the file: ${error.message}`);
   }
+}
+export function jsonReader(filePath) {
+
+  fs.readFile(filePath, 'utf8', (err, jsonString) => {
+    if (err) {
+        console.log("File read failed:", err)
+        return 
+    }
+    console.log('File data:', jsonString);
+    return jsonString;  
+  })
 }
 
 // main testing callers

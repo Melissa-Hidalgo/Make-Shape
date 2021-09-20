@@ -1,7 +1,8 @@
 'use strict';
 
 import * as Shaper from './DrawShape.js';
-import { writeToFile, deleteFile, readFromFile} from  './fileOperations.js'
+import { writeToFile, deleteFile, readFromFile, jsonReader} from  './fileOperations.js'
+import fs from 'fs';
 
 var lado = "";
 var centro = "";
@@ -27,21 +28,52 @@ await writeToFile('shape1.2.txt', fileContent, (err)=>{
     if (err) { 
       console.log('Error Message:' + err); 
     } 
-  });
+});
 
-  // main call
-  var finalContent = "";
-
-finalContent = await readFromFile ('shape1.2.txt', (err)=>{ 
+var finalContent = await readFromFile ('shape1.2.txt', (err)=>{ 
     if (err) { 
       console.log(err); 
     } 
+});
+console.log("\n\n" + fileContent + "\n\n");
+
+// Now Let's Process all json requests from the file
+processJsonRequests('./shapesRequest.json');
+
+function processJsonRequests(filePath){
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.log('Error reading file:', err);
+      return;
+    }
+    try {
+      const customer = JSON.parse(data);
+  
+      for (let index = 0; index < customer.shapes.length; index++) { 
+        // console.log(customer.shapes[index].lado + " " + customer.shapes[index].centro + "\n");
+        var lado = customer.shapes[index].lado;
+        var centro = customer.shapes[index].centro;      
+        let fileContent = Shaper.ShapeController(lado , centro, outpuType);
+        console.log(fileContent + "\n\n");
+      }
+    } catch (err) {
+      console.log('Error parsing JSON:', err);
+    }
   });
+}
 
-  console.log ('here is the final shape:\n' + finalContent);
+/*
+{
+    "collection" : [
+    {
+        "lado" : "@", 
+        "centro" : "+"
+    },
+    {
+        "lado" : "0", 
+        "centro" : "-"
+    }]
+}
 
-// await deleteFile("file1.txt", fileContent, (err)=>{ 
-//     if (err) { 
-//       console.log('Error Message:' + err); 
-//     } 
-//   });
+*/
