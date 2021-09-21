@@ -49,6 +49,11 @@ export function jsonReader(filePath) {
   })
 }
 
+export function EnviarShapeToClient(nombreDelArchivo, correo){
+  console.log ('Correo enviado a:' + correo + " con el adjunto: " + nombreDelArchivo)
+};
+
+
 // main testing callers
 // var fileContent = await readFromFile ('MyShape.txt', (err)=>{ 
 //   if (err) { 

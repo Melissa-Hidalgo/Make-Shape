@@ -1,7 +1,7 @@
 'use strict';
 
 import * as Shaper from './DrawShape.js';
-import { writeToFile, deleteFile, readFromFile, jsonReader} from  './fileOperations.js'
+import { writeToFile, deleteFile, readFromFile, jsonReader, EnviarShapeToClient} from  './fileOperations.js'
 import fs from 'fs';
 
 var lado = "";
@@ -22,20 +22,26 @@ for (let j = 0; j < process.argv.length; j++) {
         }
     }
 }
-const fileContent = Shaper.ShapeController(lado, centro, outpuType);
+// producing one shape
+// const fileContent = Shaper.ShapeController(lado, centro, outpuType);
 
-await writeToFile('shape1.2.txt', fileContent, (err)=>{ 
-    if (err) { 
-      console.log('Error Message:' + err); 
-    } 
-});
+// saving shape to file
+// await writeToFile('shape1.3.txt', fileContent, (err)=>{ 
+//     if (err) { 
+//       console.log('Error Message:' + err); 
+//     } 
+// });
 
-var finalContent = await readFromFile ('shape1.2.txt', (err)=>{ 
-    if (err) { 
-      console.log(err); 
-    } 
-});
-console.log("\n\n" + fileContent + "\n\n");
+// reading shape from a file
+// var finalContent = await readFromFile ('shape1.3.txt', (err)=>{ 
+//     if (err) { 
+//       console.log(err); 
+//     } 
+// });
+
+// printing shape to screen
+// console.log("\n\n" + finalContent + "\n\n");
+
 
 // Now Let's Process all json requests from the file
 processJsonRequests('./shapesRequest.json');
@@ -47,33 +53,50 @@ function processJsonRequests(filePath){
       console.log('Error reading file:', err);
       return;
     }
+
+    // console.log(data);
+
     try {
-      const customer = JSON.parse(data);
+
+      const solicitudes = JSON.parse(data);
   
-      for (let index = 0; index < customer.shapes.length; index++) { 
-        // console.log(customer.shapes[index].lado + " " + customer.shapes[index].centro + "\n");
-        var lado = customer.shapes[index].lado;
-        var centro = customer.shapes[index].centro;      
-        let fileContent = Shaper.ShapeController(lado , centro, outpuType);
-        console.log(fileContent + "\n\n");
+      // una vuelta para cada solicitud
+      for (let index = 0; index < solicitudes.shapes.length; index++) { 
+
+        var lado = solicitudes.shapes[index].lado;
+        var centro = solicitudes.shapes[index].centro;      
+        var nombre = solicitudes.shapes[index].nombre; 
+        var tipoDeEntrega = solicitudes.shapes[index].tipoDeEntrega;
+        var correo = solicitudes.shapes[index].correo; 
+        var cantidad = solicitudes.shapes[index].cantidad;         
+
+        var tempFileContent = "";
+        var fileContent = "";
+
+        // una vuelta para cada cantidad
+        for (let index = 0; index < cantidad; index++) {
+
+          // producir e imprimir solo un shape en la pantalla
+          tempFileContent = Shaper.ShapeController(lado , centro, outpuType);
+          console.log(tempFileContent + "\n\n");
+
+          // acumular shapes
+          fileContent += tempFileContent;
+        }
+
+        writeToFile("./Data/" + nombre + ".txt", fileContent, (err)=>{ 
+            if (err) { 
+              console.log('Error Message:' + err); 
+            }
+
+        });
+
+        if (tipoDeEntrega == "correo") {       
+            EnviarShapeToClient(nombre + ".txt", correo);
+        }
       }
     } catch (err) {
       console.log('Error parsing JSON:', err);
     }
   });
-}
-
-/*
-{
-    "collection" : [
-    {
-        "lado" : "@", 
-        "centro" : "+"
-    },
-    {
-        "lado" : "0", 
-        "centro" : "-"
-    }]
-}
-
-*/
+};
