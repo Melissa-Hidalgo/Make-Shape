@@ -79,7 +79,7 @@ function processJsonRequests(filePath){
         const totalDeOrders = collections.Solicitudes[index].orders.length;
         
       
-        var fileContent = "";
+        var fileContent = ""; // mi commentarios
 
         // una vuelta para cada orders
         for (let i = 0; i < totalDeOrders; i++) {
