@@ -11,14 +11,14 @@ function ShapeController(c1, c2, outputType, shapeType, ratio){
   } else if (shapeType == "cross") {
     return MakeCross(c1, c2, outputType, ratio);
   } else if (shapeType == "envelope") {
-    return MakeEnvelope(c1, c2, outputType, ratio);
+    return MakeEnvelope(c1, c2, "o", outputType, ratio);
   } else {
     return "shape not implemented";
   } 
    
 }
 
-function MakeEnvelope(c1, c2, outputType, ratio) {
+function MakeEnvelope(c1, c2, c3, outputType, ratio) {
 
   /*
     C1="#" , C2="+", C3="o", outType = terminal, ratio= 1
@@ -45,12 +45,55 @@ function MakeEnvelope(c1, c2, outputType, ratio) {
     aperturaCierre     = "##|" + Izquierda (i-1, c2) + "\" + Derecho(ladoDerecho - (i+1), c2) + "+##"
     cuerpo             = "##|" + Izquierda (i-1, c2) + "\" + Derecho(ladoDerecho - (i+1), c3) + "+##"
 
-
     rows = 16
   */
 
+  var columnas =Math.round (26 * ratio) ;                                                                             // # de vueltas de una mitad  
+  var tamanoDelCuerpo = Math.round(columnas * 0.84);   
 
-   return "Este es mi envelope";
+  var rows = Math.round(columnas * 0.61);
+  var limiteArriba = Math.round(rows * 0.12);
+  var limiteAbajo = Math.round(rows - limiteArriba);
+  var limiteMedio = Math.round(rows * 0.5);
+  var lados = limiteArriba
+
+  var extrema = 1;
+  
+  
+  var Shape = "";                                            
+  var lineFeed = "\n";  
+
+  //##########################
+  var headerFooter = Centro(columnas, c1) + lineFeed ;
+
+
+  for (let i = 0; i < rows ; i++) {
+
+    switch (true) {
+      case (i < limiteArriba):
+        Shape += headerFooter
+        break;
+
+      case (i < limiteArriba + 1):
+        //##|+\+++++++++++++++++++##
+        var aperturaCierre = Izquierda(lados, c1 ) + "|" + Izquierda(i-1, c2) +"\\"+ Centro(tamanoDelCuerpo - (i+1)-1, c2) + Centro(extrema, c2) + Derecha(lados, c1 )+ lineFeed;
+        Shape += aperturaCierre
+        break;
+
+      case (i > limiteArriba && i < limiteMedio):
+        //##|++\ooooooooooooooooo+##
+  var extrema = 1;
+        var cuerpo = Izquierda(lados, c1 ) + "|" + Izquierda(i-1, c2) +"\\"+ Centro(tamanoDelCuerpo - (i+1) -1, c3) + Centro(extrema, c2) + Derecha(lados, c1) + lineFeed;
+        Shape += cuerpo
+        break;
+      
+    
+      // default: 
+      //   Shape +=" Somos una estrella" + lineFeed;
+      //   break;
+    }
+  } return Shape;
+                                   
 }
 function MakeCross(c1, c2, outputType, ratio){
   
