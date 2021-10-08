@@ -10,10 +10,47 @@ function ShapeController(c1, c2, outputType, shapeType, ratio){
     return MakeRhombus (c1, c2, outputType, ratio);
   } else if (shapeType == "cross") {
     return MakeCross(c1, c2, outputType, ratio);
+  } else if (shapeType == "envelope") {
+    return MakeEnvelope(c1, c2, outputType, ratio);
   } else {
     return "shape not implemented";
   } 
    
+}
+
+function MakeEnvelope(c1, c2, outputType, ratio) {
+
+  /*
+    C1="#" , C2="+", C3="o", outType = terminal, ratio= 1
+
+    01 ########################## [26#]
+    02 ########################## limiteArriba = rows * 0.12
+    03 ##|+\+++++++++++++++++++## [2#] [1|] [1+] [19+] [2#]
+    04 ##|++\ooooooooooooooooo+## [2#] [1|] [+ -> 1] [o -> -1]  
+    05 ##|+++\oooooooooooooooo+##
+    06 ##|++++\ooooooooooooooo+##
+    07 ##|+++++\oooooooooooooo+##
+    08 ##|++++++\ooooooooooooo+## limiteMedio = rows * 0.5
+    09 ##|++++++/ooooooooooooo+##
+    10 ##|+++++/oooooooooooooo+##
+    11 ##|++++/ooooooooooooooo+##
+    12 ##|+++/oooooooooooooooo+##
+    13 ##|++/ooooooooooooooooo+##
+    14 ##|+/+++++++++++++++++++##
+    15 ########################## limiteAbajo = rows-limiteArriba
+    16 ##########################
+
+    tamanoDelCuerpo    = columnas * 0.84
+    footerHeader       = centro(columnas, c1)
+    aperturaCierre     = "##|" + Izquierda (i-1, c2) + "\" + Derecho(ladoDerecho - (i+1), c2) + "+##"
+    cuerpo             = "##|" + Izquierda (i-1, c2) + "\" + Derecho(ladoDerecho - (i+1), c3) + "+##"
+
+
+    rows = 16
+  */
+
+
+   return "Este es mi envelope";
 }
 function MakeCross(c1, c2, outputType, ratio){
   
