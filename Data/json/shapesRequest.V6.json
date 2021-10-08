@@ -3,7 +3,7 @@
         "nombre": "Arielle",
         "tipoDeEntrega": "correo",
         "correo": "arielle@gmail.com",
-        "multipleFiles": false,
+        "multipleFiles": true,
         "orders" : 
         [
             {
@@ -20,6 +20,13 @@
                 "cantidad": 1,
                 "ratio": 2,
                 "shape": "rhombus"
+            },
+            {
+                "lado": "+",
+                "centro": ".",
+                "cantidad": 1,
+                "ratio": 1,
+                "shape": "cross"
             }
 
         ]
