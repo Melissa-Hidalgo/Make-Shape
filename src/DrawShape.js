@@ -1,6 +1,6 @@
 import { PonerLetras } from "../utils/utils.js";
 
-function ShapeController(c1, c2, outputType, shapeType, ratio){
+function ShapeController(c1, c2, c3, outputType, shapeType, ratio){
 
   if (shapeType == "diamond") {
     return MakeDiamond(c1, c2, outputType);
@@ -11,11 +11,31 @@ function ShapeController(c1, c2, outputType, shapeType, ratio){
   } else if (shapeType == "cross") {
     return MakeCross(c1, c2, outputType, ratio);
   } else if (shapeType == "envelope") {
-    return MakeEnvelope(c1, c2, "o", outputType, ratio);
+    return MakeEnvelope(c1, c2, c3, outputType, ratio);
+  } else if (shapeType == "pylogon") {
+    return MakePylogon(c1, c2, outputType, ratio);
   } else {
     return "shape not implemented";
   } 
    
+}
+function MakePylogon(c1, c2, c3, outputType, ratios) {
+  
+  /*........................[24]
+    ........................
+    .......----------....... [7] [10] [7] 
+    ....../..........\...... [6]  [1] [10] [1] [6]
+    ...../............\..... [5]  [1] [12] [1] [5]
+    ....|..............|.... [4]  [1] [14] [1] [4]
+    ....|..............|....
+    .....\............/.....
+    ......\........../......
+    .......----------.......
+    ........................
+    ........................
+      rows = 12
+  */
+  return " Este es mi Pylogon";
 }
 
 function MakeEnvelope(c1, c2, c3, outputType, ratio) {
@@ -48,52 +68,69 @@ function MakeEnvelope(c1, c2, c3, outputType, ratio) {
     rows = 16
   */
 
-  var columnas =Math.round (26 * ratio) ;                                                                             // # de vueltas de una mitad  
+  var columnas =Math.round (26 * ratio) ;  
+  var rows = Math.round(columnas * 0.61);                             
   var tamanoDelCuerpo = Math.round(columnas * 0.84);   
 
-  var rows = Math.round(columnas * 0.61);
+  var Shape = "";                                            
+  var lineFeed = "\n";  
+
+  if (outputType == "web") {
+    lineFeed = "<br>";
+  } else {
+    lineFeed = "\n";
+  }
+
   var limiteArriba = Math.round(rows * 0.12);
-  var limiteAbajo = Math.round(rows - limiteArriba);
   var limiteMedio = Math.round(rows * 0.5);
+  var limiteAbajo = Math.round(rows - limiteArriba);
   var lados = limiteArriba
 
   var extrema = 1;
   
+
+  var headerFooter        = "";
+  var headerFooterDown    = "";
+  var aperturaCierre      = "";
+  var aperturaCierreDown  = "";
+  var cuerpo              = "";
+  var cuerpoDown          = "";
+
+
   
-  var Shape = "";                                            
-  var lineFeed = "\n";  
-
-  //##########################
-  var headerFooter = Centro(columnas, c1) + lineFeed ;
-
-
+  // Empezando a producir un shape
   for (let i = 0; i < rows ; i++) {
 
     switch (true) {
       case (i < limiteArriba):
-        Shape += headerFooter
+        //##########################
+        //##########################
+        headerFooter      += Centro(columnas, c1) + lineFeed;
+        headerFooterDown  += Centro(columnas, c1) + lineFeed;
         break;
 
-      case (i < limiteArriba + 1):
+      case (i == limiteArriba):
         //##|+\+++++++++++++++++++##
-        var aperturaCierre = Izquierda(lados, c1 ) + "|" + Izquierda(i-1, c2) +"\\"+ Centro(tamanoDelCuerpo - (i+1)-1, c2) + Centro(extrema, c2) + Derecha(lados, c1 )+ lineFeed;
-        Shape += aperturaCierre
+        //##|+/+++++++++++++++++++##
+        aperturaCierre     = Izquierda(lados, c1 ) + "|" + Izquierda(i-1, c2) +"\\"+ Centro(tamanoDelCuerpo - (i+1)-1, c2) + Centro(extrema, c2) + Derecha(lados, c1 ) + lineFeed;
+        aperturaCierreDown = Izquierda(lados, c1 ) + "|" + Izquierda(i-1, c2) +"/"+ Centro(tamanoDelCuerpo - (i+1)-1, c2) + Centro(extrema, c2) + Derecha(lados, c1 ) + lineFeed;
         break;
 
       case (i > limiteArriba && i < limiteMedio):
         //##|++\ooooooooooooooooo+##
-  var extrema = 1;
-        var cuerpo = Izquierda(lados, c1 ) + "|" + Izquierda(i-1, c2) +"\\"+ Centro(tamanoDelCuerpo - (i+1) -1, c3) + Centro(extrema, c2) + Derecha(lados, c1) + lineFeed;
-        Shape += cuerpo
+        //##|++/ooooooooooooooooo+##
+        cuerpo      += Izquierda(lados, c1 ) + "|" + Izquierda(i-1, c2) +"\\"+ Centro(tamanoDelCuerpo - (i+1) -1, c3) + Centro(extrema, c2) + Derecha(lados, c1) + lineFeed;
+        cuerpoDown   = Izquierda(lados, c1 ) + "|" + Izquierda(i-1, c2) +"/"+ Centro(tamanoDelCuerpo - (i+1) -1, c3) + Centro(extrema, c2) + Derecha(lados, c1) + lineFeed + cuerpoDown;
         break;
       
-    
       // default: 
       //   Shape +=" Somos una estrella" + lineFeed;
       //   break;
     }
-  } return Shape;
-                                   
+    GetLineFeed(outputType);
+  } 
+  Shape = headerFooter + aperturaCierre + cuerpo + cuerpoDown + aperturaCierreDown + headerFooterDown;
+  return Shape;                                 
 }
 function MakeCross(c1, c2, outputType, ratio){
   
@@ -394,6 +431,7 @@ function MakeRhombus(c1, c2, outputType, ratio){
 
 }
 function MakeSquare(c1, c2, outputType, ratio) {
+
 
   /*
 ........................ (24) columnas

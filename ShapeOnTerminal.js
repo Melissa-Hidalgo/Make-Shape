@@ -6,6 +6,7 @@ import fs from 'fs';
 
 var lado = "";
 var centro = "";
+var centro2 = "";
 var outpuType = "web";
 var numOfShapes = 0;
 const inicio = Date.now();
@@ -84,11 +85,12 @@ function processJsonRequests(filePath){
         // una vuelta para cada orders
         for (let i = 0; i < totalDeOrders; i++) {
 
-          const lado = collections.Solicitudes[index].orders[i].lado;
-          const centro = collections.Solicitudes[index].orders[i].centro;
+          const lado     = collections.Solicitudes[index].orders[i].lado;
+          const centro   = collections.Solicitudes[index].orders[i].centro;
+          const centro2   = collections.Solicitudes[index].orders[i].centro2;
           const cantidad = collections.Solicitudes[index].orders[i].cantidad;
-          const ratio = collections.Solicitudes[index].orders[i].ratio;
-          var shape = collections.Solicitudes[index].orders[i].shape;
+          const ratio    = collections.Solicitudes[index].orders[i].ratio;
+          var shape      = collections.Solicitudes[index].orders[i].shape;
 
           console.log('Inicio-> Cliente: ' + nombre + ' Cantidad de Shapes: ' + cantidad + "\n\n");
     
@@ -105,7 +107,7 @@ function processJsonRequests(filePath){
           }
 
           var tempFileContent = "";
-          tempFileContent = Shaper.ShapeController(lado , centro, outpuType, shape, ratio);
+          tempFileContent = Shaper.ShapeController(lado , centro, centro2, outpuType, shape, ratio);
           // console.log(tempFileContent + "\n\n");
 
           // una vuelta para cada shapes

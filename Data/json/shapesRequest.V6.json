@@ -17,6 +17,7 @@
             {
                 "lado": "#",
                 "centro": "+",
+                "centro2":"o",
                 "cantidad": 1,
                 "ratio": 1,
                 "shape": "envelope"
@@ -26,7 +27,7 @@
                 "centro": ".",
                 "cantidad": 1,
                 "ratio": 1,
-                "shape": "cross"
+                "shape": "pylogon"
             }
 
         ]
